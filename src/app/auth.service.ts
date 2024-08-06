@@ -16,18 +16,18 @@ export class AuthService {
   async login(email: string, password: string) {
     try {
       await this.afAuth.signInWithEmailAndPassword(email, password);
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     } catch (error) {
-      console.error('Login error: ', error);
+      throw error;
     }
   }
 
   async register(email: string, password: string) {
     try {
       await this.afAuth.createUserWithEmailAndPassword(email, password);
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     } catch (error) {
-      console.error('Registration error: ', error);
+      throw error;
     }
   }
 

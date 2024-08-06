@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string = '';
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
@@ -17,10 +18,22 @@ export class LoginComponent {
     })
   }
 
-  login() {
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      this.authService.login(email, password);
+      try {
+        await this.authService.login(email, password);
+      } catch (error) {
+        this.errorMessage = 'Invalid email or password. Please try again.';
+      }
     }
   }
 }
